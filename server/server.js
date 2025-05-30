@@ -44,19 +44,37 @@ io.on('connection', function(socket) {
         name: "Player_" + socket.id.slice(0, 5)
     };
 
+    socket.on('setName', function(name) {
+    if (players[socket.id]) {
+            players[socket.id].name = name;
+            // Inform all clients that this player's name was updated
+            io.emit('nameUpdated', { id: socket.id, name: name });
+        }
+    });
+
     // Send current players to new player
     socket.emit('currentPlayers', players);
 
     // Notify all others about the new player
     socket.broadcast.emit('newPlayer', players[socket.id]);
 
+    // When a player sends a chat message:
+    socket.on('chatMessage', (msg) => {
+        // Broadcast to all players including sender
+        io.emit('chatMessage', {
+            id: socket.id,
+            name: players[socket.id]?.name || "Unnamed",
+            message: msg
+        });
+    });
+
     // Listen for player movement updates
     socket.on('playerMovement', function(data) {
-        if (players[socket.id]) {
+    if (players[socket.id]) {
             players[socket.id].x = data.x;
             players[socket.id].y = data.y;
             players[socket.id].angle = data.angle;
-            // Broadcast movement to all except sender
+
             socket.broadcast.emit('playerMoved', players[socket.id]);
         }
     });

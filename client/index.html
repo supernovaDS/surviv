@@ -5,6 +5,17 @@
     <title>MyTestGame</title>
 </head>
 <body>
+    <div id="start-screen" style="position:absolute; top:0; left:0; width:100vw; height:100vh; background:#000; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; font-family:sans-serif; z-index:10;">
+        <h1>Enter Your Name</h1>
+        <input type="text" id="name-input" placeholder="Your name..." style="padding:10px; font-size:16px;">
+        <button onclick="startGame()" style="padding:10px 20px; margin-top:10px;">Play</button>
+        <h2>If you are stuck after Entering the game kindly regoin/refresh</h2>
+    </div>
+    <div id="chat-container" style="position: fixed; bottom: 0; left: 10px; width: 300px; max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.6); color: white; font-family: sans-serif; padding: 5px; border-radius: 5px;">
+    <div id="chat-messages" style="height: 150px; overflow-y: auto;"></div>
+        <input type="text" id="chat-input" placeholder="Type message and press Enter" style="width: 100%; box-sizing: border-box;" />
+    </div>
+
     <script src="js/p5.js"></script>
     <script  src="/socket.io/socket.io.js"></script>
     <script src="js/sketch.js"></script>
